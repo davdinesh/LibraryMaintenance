@@ -70,6 +70,7 @@ public class SubjectRestController {
 	public ResponseEntity<Subject> updateSubject(@RequestBody Subject subject, @PathVariable long id) {
 		Subject existingSubject = subjectRepository.getOne(new Long(id));
 		if (existingSubject == null) {
+			System.out.println("Subject already exits!!!");
 			return ResponseEntity.notFound().build();
 		}
 		
