@@ -67,3 +67,5 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+library-client-app/dist/
+library-client-app/node_modules/

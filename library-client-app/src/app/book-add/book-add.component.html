@@ -1,0 +1,57 @@
+<div class="example-container mat-elevation-z8">
+  <div class="example-loading-shade"
+       *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+  <div class="button-row">
+    <a mat-flat-button color="primary" [routerLink]="['/books']"><mat-icon>list</mat-icon></a>
+  </div>
+  <mat-card class="example-card">
+    <form [formGroup]="bookForm" (ngSubmit)="onFormSubmit(bookForm.value)">
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Book Title" formControlName="title"
+               [errorStateMatcher]="matcher">
+        <mat-error>
+          <span *ngIf="!bookForm.get('title').valid && bookForm.get('title').touched">Please enter Book Title</span>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Book price" formControlName="price"
+               [errorStateMatcher]="matcher">
+        <mat-error>
+          <span *ngIf="!bookForm.get('price').valid && bookForm.get('price').touched">Please enter Book Price</span>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Book volume" formControlName="volume"
+               [errorStateMatcher]="matcher">
+        <mat-error>
+          <span *ngIf="!bookForm.get('volume').valid && bookForm.get('volume').touched">Please enter Book Volume</span>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <!---<input matInput placeholder="Book Published date" formControlName="publishedDate"
+               [errorStateMatcher]="matcher"> -->
+        <input matInput [matDatepicker] = "picker" placeholder = "Choose a date" 
+        formControlName="publishedDate" [errorStateMatcher]="matcher">
+        <mat-datepicker-toggle matSuffix [for] = "picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error>
+          <span *ngIf="!bookForm.get('publishedDate').valid && bookForm.get('publishedDate').touched">Please enter Book Published Date</span>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Enter Subject Name</mat-label>
+        <input type="text" aria-label="Text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedclient($event)" [displayWith]="getOptionText">
+            <mat-option *ngFor="let option of subjects; let i = index" [value]="option">
+                {{ option.title }}
+              </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <div class="button-row">
+        <button type="submit" [disabled]="!bookForm .valid" mat-flat-button color="primary"><mat-icon>save</mat-icon></button>
+      </div>
+    </form>
+  </mat-card>
+</div>

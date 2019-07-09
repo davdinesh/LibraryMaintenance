@@ -1,0 +1,48 @@
+<div class="example-container mat-elevation-z8">
+  <div class="example-loading-shade"
+       *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+  <div class="button-row">
+    <a mat-flat-button color="primary" [routerLink]="['/book-add']"><mat-icon>Create</mat-icon></a>
+  </div>
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="data" class="example-table"
+           matSort matSortActive="book_title" matSortDisableClear matSortDirection="asc">
+
+
+      <!-- Book id Column -->
+      <ng-container matColumnDef="book_id">
+        <th mat-header-cell *matHeaderCellDef>Book ID</th>
+        <td mat-cell *matCellDef="let row">{{row.id}}</td>
+      </ng-container>
+
+      <!-- Book Title Column -->
+      <ng-container matColumnDef="book_title">
+        <th mat-header-cell *matHeaderCellDef>Book Title</th>
+        <td mat-cell *matCellDef="let row">{{row.title}}</td>
+      </ng-container>
+
+      <!-- Book Price Column -->
+      <ng-container matColumnDef="book_price">
+        <th mat-header-cell *matHeaderCellDef>Book Price</th>
+        <td mat-cell *matCellDef="let row">$ {{row.price}}</td>
+      </ng-container>
+
+      <!-- Book Volume Column -->
+      <ng-container matColumnDef="book_volume">
+        <th mat-header-cell *matHeaderCellDef>Book Volume</th>
+        <td mat-cell *matCellDef="let row">{{row.volume}}</td>
+      </ng-container>
+
+      <!-- Book Published Date Column -->
+      <ng-container matColumnDef="book_pub_date">
+        <th mat-header-cell *matHeaderCellDef>Book Published Date</th>
+        <td mat-cell *matCellDef="let row">{{row.publishedDate}}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['/book-detail/', row.id]"></tr>
+    </table>
+  </div>
+</div>
