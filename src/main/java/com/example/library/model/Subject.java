@@ -29,6 +29,16 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Table(name="subject")
 public class Subject implements Serializable{
 	
+	public Subject() {
+		
+	}
+	
+	public Subject(Long id, String title, int duration) {
+		this.id = id;
+		this.title = title;
+		this.duration = duration;
+	}
+
 	/**
 	 * 
 	 */

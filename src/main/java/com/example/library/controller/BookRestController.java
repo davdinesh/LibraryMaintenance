@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -24,6 +26,7 @@ import com.example.library.model.Book;
 import com.example.library.model.Subject;
 import com.example.library.repository.BookRepository;
 import com.example.library.repository.SubjectRepository;
+import com.example.library.service.BookService;
 
 /**
  * @author viswa
@@ -35,20 +38,20 @@ import com.example.library.repository.SubjectRepository;
 public class BookRestController {
 	
 	@Autowired
-	private BookRepository bookRepository;
+	private BookService bookService;
 	
 	@Autowired
 	private SubjectRepository subjectRepository;
 	
-	@GetMapping("/")
+	@GetMapping(value="/",produces="application/json")
 	public List<Book> fetchAllBooks() {
-		return bookRepository.findAll();
+		return bookService.findAllBooks();
 	}
 	
 	@GetMapping("/{id}")
 	public Book fetchBookById(@PathVariable long id) {
 		
-		Book book = bookRepository.getOne(new Long(id));
+		Book book = bookService.findById(new Long(id));
 		if (book == null) {
 			return null;
 		}
@@ -58,7 +61,7 @@ public class BookRestController {
 	
 	@DeleteMapping("/{id}")
 	public void deleteBook(@PathVariable long id) {
-		bookRepository.deleteById(new Long(id));
+		bookService.deleteBook(new Long(id));
 	}
 	
 	@PostMapping(path="/{subjectId}",consumes="application/json", produces="application/json;charset=UTF-8")
@@ -68,7 +71,7 @@ public class BookRestController {
 			return ResponseEntity.notFound().build();
 		}
 		book.setSubject(subject);
-		Book savedBook = bookRepository.save(book);
+		Book savedBook = bookService.createBook(book);
 		/*URI location = ServletUriComponentsBuilder.fromCurrentServletMapping()
 						.path("api/books/{id}")
 						.buildAndExpand(savedBook.getId())
@@ -83,13 +86,13 @@ public class BookRestController {
 			return ResponseEntity.notFound().build();
 		}
 		book.setSubject(subject);
-		Book existingBook = bookRepository.getOne(new Long(id));
+		Book existingBook = bookService.findById(new Long(id));
 		if (existingBook == null) {
 			return ResponseEntity.notFound().build();
 		}
 		
 		book.setId(id);
-		Book updatedBook = bookRepository.save(book);
+		Book updatedBook = bookService.createBook(book);
 		return new ResponseEntity<Book>(updatedBook,HttpStatus.ACCEPTED);
 	}
 

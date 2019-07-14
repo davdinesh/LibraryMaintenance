@@ -20,7 +20,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  * @author viswa
@@ -31,7 +30,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Table(name="book")
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Book implements Serializable{
-
+	
 	/**
 	 * 
 	 */
@@ -64,6 +63,18 @@ public class Book implements Serializable{
 	@JoinColumn(name="subject_id")
 	//@JsonManagedReference
 	private Subject subject;
+	
+	public Book() {
+		
+	}
+
+	public Book(long id, String title, double price, int volume, Date publishedDate) {
+		this.id = id;
+		this.title = title;
+		this.price = price;
+		this.volume = volume;
+		this.publishedDate = publishedDate;
+	}
 
 	/**
 	 * @return the id
